@@ -6,14 +6,11 @@
 	export let ticks = undefined;
 	export let horizontal = false;
 	export let vertical = false;
-	export let categorical = false; // add categorical option
-
+	export let labels = undefined
 	const { x1, y1, x2, y2, x, y } = getChartContext();
 
 	const VERTICAL = {};
 	const HORIZONTAL = {};
-
-	const cat_pos = (i) => 100/ticks.length*i
 
 	$: orientation = vertical ? VERTICAL : HORIZONTAL;
 
@@ -29,14 +26,14 @@
 		: get_ticks($x1, $x2, count));
 
 	$: style = orientation === HORIZONTAL
-		? (y, i) => `width: 100%; height: 0; top: ${categorical?cat_pos(i):$y(y, i)}%`
-		: (x, i) => `width: 0; height: 100%; left: ${categorical?cat_pos(i):$x(x, i)}%`;
+		? (y, i) => `width: 100%; height: 0; top: ${$y(y, i)}%`
+		: (x, i) => `width: 0; height: 100%; left: ${$x(x, i)}%`;
 </script>
 
 <div class="pancake-grid">
 	{#each _ticks as tick, i}
 		<div class="pancake-grid-item" style={style(tick, i)}>
-			<slot value={tick} first={i === 0} last={i === _ticks.length - 1}></slot>
+			<slot value={labels?labels[i]:tick} first={i === 0} last={i === _ticks.length - 1}></slot>
 		</div>
 	{/each}
 </div>
