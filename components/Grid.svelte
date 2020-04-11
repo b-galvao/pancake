@@ -13,7 +13,7 @@
 	const VERTICAL = {};
 	const HORIZONTAL = {};
 
-	const cat_pos = (i) => 100/ticks.count()*i
+	const cat_pos = (i) => 100/ticks.length*i
 
 	$: orientation = vertical ? VERTICAL : HORIZONTAL;
 
