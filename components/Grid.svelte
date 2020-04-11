@@ -13,6 +13,7 @@
 	const VERTICAL = {};
 	const HORIZONTAL = {};
 
+	const cat_pos = (i) => 100/ticks.count()*i
 
 	$: orientation = vertical ? VERTICAL : HORIZONTAL;
 
@@ -28,8 +29,8 @@
 		: get_ticks($x1, $x2, count));
 
 	$: style = orientation === HORIZONTAL
-		? (y, i) => `width: 100%; height: 0; top: ${categorical?$y(i, i):$y(y, i)}%`
-		: (x, i) => `width: 0; height: 100%; left: ${categorical?$x(i, i):$x(x, i)}%`;
+		? (y, i) => `width: 100%; height: 0; top: ${categorical?cat_pos(i):$y(y, i)}%`
+		: (x, i) => `width: 0; height: 100%; left: ${categorical?cat_pos(i):$x(x, i)}%`;
 </script>
 
 <div class="pancake-grid">
