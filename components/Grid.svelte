@@ -6,25 +6,30 @@
 	export let ticks = undefined;
 	export let horizontal = false;
 	export let vertical = false;
+	export let categorical = false; // add categorical option
 
 	const { x1, y1, x2, y2, x, y } = getChartContext();
 
 	const VERTICAL = {};
 	const HORIZONTAL = {};
 
+
 	$: orientation = vertical ? VERTICAL : HORIZONTAL;
 
 	$: if (horizontal && vertical) {
 		console.error(`<Grid> must specify either 'horizontal' or 'vertical' orientation`);
 	}
+	$: if(categorical && ticks === undefined){
+		console.error(`<Grid> with categorical data must specificy {tick}`);
+	}
 
-	$: _ticks = ticks || (orientation === HORIZONTAL
+	$: _ticks = ticks ||(orientation === HORIZONTAL
 		? get_ticks($y1, $y2, count)
 		: get_ticks($x1, $x2, count));
 
 	$: style = orientation === HORIZONTAL
-		? (y, i) => `width: 100%; height: 0; top: ${$y(y, i)}%`
-		: (x, i) => `width: 0; height: 100%; left: ${$x(x, i)}%`;
+		? (y, i) => `width: 100%; height: 0; top: ${categorical?$y(i, i):$y(y, i)}%`
+		: (x, i) => `width: 0; height: 100%; left: ${categorical?$x(i, i):$x(x, i)}%`;
 </script>
 
 <div class="pancake-grid">
