@@ -7,6 +7,7 @@
 	export let horizontal = false;
 	export let vertical = false;
 	export let labels = undefined
+
 	const { x1, y1, x2, y2, x, y } = getChartContext();
 
 	const VERTICAL = {};
@@ -16,9 +17,6 @@
 
 	$: if (horizontal && vertical) {
 		console.error(`<Grid> must specify either 'horizontal' or 'vertical' orientation`);
-	}
-	$: if(categorical && ticks === undefined){
-		console.error(`<Grid> with categorical data must specificy {tick}`);
 	}
 
 	$: _ticks = ticks ||(orientation === HORIZONTAL
